@@ -1,6 +1,5 @@
 import random
 from flask import Flask
-
 # create a dict containing occupation info
 def occupations_dict():
     occupations_str = open('occupations.csv').read()
