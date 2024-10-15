@@ -1,10 +1,10 @@
 '''
-Jacob Lukose
+Tawab Berri
 The Duo-lingos - Tawab Berri, Jacob Lukose, Jack Blair
 SoftDev
 2024-10-08
 K15 - Analyzing the different forms of server responses of user inputs.
-time spent: 1.8 hrs
+time spent: 2.4 hrs
 '''
 # import conventions:
 # list most general first (standard python library)
@@ -26,25 +26,6 @@ import os
 app = Flask(__name__)    #create Flask object
 app.secret_key = secrets.token_hex()#"blah blah blah" #os.urandom(32)
 
-'''
-trioTASK:
-~~~~~~~~~~~ BEFORE RUNNING THIS, ~~~~~~~~~~~~~~~~~~
-...read for understanding all of the code below.
- * Some will work as written;
- *  ...other sections will not. 
-
-TASK:
- Predict which.
- 1. Devise simple tests to isolate components/behaviors.
- 2. Execute your tests.
- 3. Process results.
- 4. Findings yield new ideas for more tests? Yes: do them.
-
-PROTIP: Insert your own in-line comments
- wherever they will help
-  your future self and/or current teammates
-   understand what is going on.
-'''
 
 @app.route("/", methods=['GET', 'POST'])
 def disp_loginpage():
@@ -57,9 +38,8 @@ def disp_loginpage():
     #print(request.args)
     #print("***DIAG: request.args['username']  ***") this pair doesnt work because the variable "username" probably hasnt been defined yet.
     #print(request.args['username'])
-    #while len(S) >0:
-    #    S.pop(-1)
-    
+    #print("***DIAG: request.headers ***")
+    #print(request.headers)
     return render_template( 'login.html' )
 
 
@@ -80,11 +60,16 @@ def authenticate():
         u = request.form['username']
     elif (request.method == 'GET'): u = request.args['username']
     
-    S['username'] = u
+    
     S['password'] = request.cookies.get('password')
     S['KEY'] = app.secret_key
-    print(S['username'])
     return render_template( 'response.html', user = u, form = request.method)  #response to a form submission
+
+@app.route("/logout", methods=['GET', 'POST'])
+def goodbye():
+    S.pop('password')
+    S.pop('KEY')
+    return render_template( 'logout.html')
 
 
     
