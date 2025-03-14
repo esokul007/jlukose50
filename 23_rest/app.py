@@ -16,7 +16,7 @@ app.secret_key = 'wawa'
 @app.route("/")
 def main():
     data = urllib.request.urlopen('https://api.nasa.gov/planetary/apod?api_key=56fF6PjUPBIHJZmL00z4LXc6oTakAu7y0hRihvht')
-    jsonDictionary = json.loads(data.read().decode())
+    jsonDictionary = json.loads(data.read())
     photo = jsonDictionary["url"]
     return render_template('main.html', photo = photo, info = jsonDictionary["explanation"])
 
